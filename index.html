@@ -27,6 +27,7 @@
         
         .title-font {
             font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px;
         }
         
         .page {
@@ -44,29 +45,31 @@
             background-color: var(--primary-red);
             color: white;
             transition: all 0.3s ease;
+            border: none;
         }
         
         .btn-red:hover {
             background-color: var(--secondary-red);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5);
         }
         
         .btn-black {
             background-color: var(--accent-gray);
             color: white;
             transition: all 0.3s ease;
+            border: 1px solid var(--primary-red);
         }
         
         .btn-black:hover {
             background-color: var(--primary-black);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
         }
         
         .input-field {
             background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
             transition: all 0.3s ease;
         }
@@ -74,7 +77,7 @@
         .input-field:focus {
             outline: none;
             border-color: var(--primary-red);
-            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5);
         }
         
         .pulse {
@@ -97,6 +100,10 @@
             text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
         }
         
+        .glow-box {
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        
         .menu-icon {
             transition: all 0.3s ease;
             cursor: pointer;
@@ -104,6 +111,7 @@
         
         .menu-icon:hover {
             color: var(--primary-red);
+            transform: scale(1.1);
         }
         
         .dropdown-menu {
@@ -195,6 +203,65 @@
         .form-container {
             scroll-margin-top: 20px;
         }
+        
+        /* Custom select styles for high contrast */
+        select.input-field {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+        
+        select.input-field option {
+            background-color: var(--primary-black);
+            color: white;
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--accent-gray);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-red);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-red);
+        }
+        
+        /* Custom checkbox */
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-red);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            background-color: transparent;
+        }
+        
+        .custom-checkbox:checked {
+            background-color: var(--primary-red);
+        }
+        
+        .custom-checkbox:checked::after {
+            content: '\2713';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            left: 3px;
+            top: 0;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -206,7 +273,7 @@
 
     <!-- Login Modal -->
     <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-90 z-40 flex items-center justify-center p-4">
-        <div class="bg-gray-900 rounded-lg p-8 max-w-md w-full border border-red-600 transform transition-all duration-300 scale-90">
+        <div class="bg-gray-900 rounded-lg p-8 max-w-md w-full border-2 border-red-600 transform transition-all duration-300 scale-90 glow-box">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-red-600 title-font">ACESSO RESTRITO</h2>
                 <button id="close-login" class="text-gray-400 hover:text-white">
@@ -215,12 +282,12 @@
             </div>
             <form id="login-form" class="space-y-4">
                 <div>
-                    <label for="login-id" class="block text-sm font-medium text-gray-300 mb-1">ID DE ACESSO</label>
-                    <input type="text" id="login-id" class="w-full px-4 py-2 rounded input-field" required>
+                    <label for="login-id" class="block text-sm font-medium text-gray-300 mb-1">ID DE ACESSO *</label>
+                    <input type="text" id="login-id" class="w-full px-4 py-3 rounded input-field" required>
                 </div>
                 <div>
-                    <label for="login-password" class="block text-sm font-medium text-gray-300 mb-1">SENHA</label>
-                    <input type="password" id="login-password" class="w-full px-4 py-2 rounded input-field" required>
+                    <label for="login-password" class="block text-sm font-medium text-gray-300 mb-1">SENHA *</label>
+                    <input type="password" id="login-password" class="w-full px-4 py-3 rounded input-field" required>
                 </div>
                 <div id="login-error" class="text-red-500 text-sm hidden">ID ou senha incorretos!</div>
                 <button type="submit" id="login-button" class="w-full py-3 px-4 rounded font-bold btn-red flex items-center justify-center">
@@ -235,14 +302,18 @@
     <div id="main-content" class="hidden">
         <!-- Mobile Menu Button -->
         <div class="fixed top-4 right-4 z-40">
-            <div id="mobile-menu-button" class="menu-icon text-white text-2xl">
+            <div id="mobile-menu-button" class="menu-icon text-white text-2xl bg-black bg-opacity-70 p-2 rounded-full">
                 <i class="fas fa-bars"></i>
             </div>
             
             <!-- Mobile Menu Dropdown -->
-            <div id="mobile-menu" class="dropdown-menu absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg ring-1 ring-red-600 ring-opacity-50 py-1 z-50">
-                <button id="mobile-nav-home" class="block px-4 py-2 text-sm text-white hover:bg-red-600 w-full text-left transition-colors">HOME</button>
-                <button id="mobile-nav-register" class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 w-full text-left transition-colors">INSCRIÇÃO</button>
+            <div id="mobile-menu" class="dropdown-menu absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg ring-2 ring-red-600 ring-opacity-70 py-1 z-50 border border-gray-800">
+                <button id="mobile-nav-home" class="block px-4 py-3 text-sm text-white hover:bg-red-600 w-full text-left transition-colors flex items-center">
+                    <i class="fas fa-home mr-2"></i> HOME
+                </button>
+                <button id="mobile-nav-register" class="block px-4 py-3 text-sm text-white hover:bg-red-600 w-full text-left transition-colors flex items-center">
+                    <i class="fas fa-edit mr-2"></i> INSCRIÇÃO
+                </button>
             </div>
         </div>
 
@@ -253,12 +324,13 @@
                     <span class="text-red-600">TROPA</span> 
                     <span class="text-white">DO</span> 
                     <span class="text-red-600">DOUBLE</span>
+                    <span class="text-white">2025</span>
                 </h1>
                 <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
                     O grupo mais exclusivo para apostadores de alto nível. Garanta seu lugar na tropa que vai dominar 2025!
                 </p>
                 
-                <div class="bg-gray-900 bg-opacity-70 border border-red-900 rounded-lg p-8 max-w-2xl mx-auto mt-12 fade-in">
+                <div class="bg-black bg-opacity-70 border-2 border-red-900 rounded-lg p-8 max-w-2xl mx-auto mt-12 fade-in glow-box">
                     <div class="flex items-center justify-center mb-4">
                         <i class="fas fa-info-circle text-red-600 text-2xl mr-2"></i>
                         <h3 class="text-xl font-bold text-white">INFORMAÇÃO IMPORTANTE</h3>
@@ -274,21 +346,21 @@
                 </div>
                 
                 <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    <div class="bg-gray-900 bg-opacity-70 border border-gray-800 rounded-lg p-6 hover:border-red-600 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="bg-black bg-opacity-70 border-2 border-gray-800 rounded-lg p-6 hover:border-red-600 transition-all duration-300 transform hover:-translate-y-2 glow-box-hover">
                         <div class="text-red-600 text-4xl mb-4">
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2">SEGURANÇA</h3>
                         <p class="text-gray-400">Dados protegidos com criptografia de última geração.</p>
                     </div>
-                    <div class="bg-gray-900 bg-opacity-70 border border-gray-800 rounded-lg p-6 hover:border-red-600 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="bg-black bg-opacity-70 border-2 border-gray-800 rounded-lg p-6 hover:border-red-600 transition-all duration-300 transform hover:-translate-y-2 glow-box-hover">
                         <div class="text-red-600 text-4xl mb-4">
                             <i class="fas fa-chart-line"></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2">ESTRATÉGIA</h3>
                         <p class="text-gray-400">Métodos comprovados para maximizar seus ganhos.</p>
                     </div>
-                    <div class="bg-gray-900 bg-opacity-70 border border-gray-800 rounded-lg p-6 hover:border-red-600 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="bg-black bg-opacity-70 border-2 border-gray-800 rounded-lg p-6 hover:border-red-600 transition-all duration-300 transform hover:-translate-y-2 glow-box-hover">
                         <div class="text-red-600 text-4xl mb-4">
                             <i class="fas fa-users"></i>
                         </div>
@@ -302,7 +374,7 @@
         <!-- Registration Page -->
         <div id="register-page" class="page min-h-screen bg-gradient-to-b from-black to-gray-900">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div id="form-container" class="form-container bg-gray-900 bg-opacity-80 border border-red-900 rounded-xl overflow-hidden slide-in">
+                <div id="form-container" class="form-container bg-black bg-opacity-80 border-2 border-red-900 rounded-xl overflow-hidden slide-in glow-box">
                     <div class="bg-gradient-to-r from-red-900 to-black px-6 py-4">
                         <h2 class="text-2xl font-bold text-white title-font">FORMULÁRIO DE INSCRIÇÃO</h2>
                     </div>
@@ -311,22 +383,22 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="full-name" class="block text-sm font-medium text-gray-300 mb-1">NOME COMPLETO *</label>
-                                <input type="text" id="full-name" class="w-full px-4 py-2 rounded input-field" required>
+                                <input type="text" id="full-name" class="w-full px-4 py-3 rounded input-field" required>
                             </div>
                             
                             <div>
                                 <label for="cpf" class="block text-sm font-medium text-gray-300 mb-1">CPF *</label>
-                                <input type="text" id="cpf" class="w-full px-4 py-2 rounded input-field" required>
+                                <input type="text" id="cpf" class="w-full px-4 py-3 rounded input-field" required>
                             </div>
                             
                             <div>
                                 <label for="birth-date" class="block text-sm font-medium text-gray-300 mb-1">DATA DE NASCIMENTO *</label>
-                                <input type="date" id="birth-date" class="w-full px-4 py-2 rounded input-field" required>
+                                <input type="date" id="birth-date" class="w-full px-4 py-3 rounded input-field" required>
                             </div>
                             
                             <div>
                                 <label for="schedule" class="block text-sm font-medium text-gray-300 mb-1">HORÁRIO PREFERIDO *</label>
-                                <select id="schedule" class="w-full px-4 py-2 rounded input-field" required>
+                                <select id="schedule" class="w-full px-4 py-3 rounded input-field" required>
                                     <option value="" disabled selected>Selecione um horário</option>
                                     <option value="MANHÃ">MANHÃ</option>
                                     <option value="TARDE">TARDE</option>
@@ -342,7 +414,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="relative">
                                     <label for="cep" class="block text-sm font-medium text-gray-300 mb-1">CEP *</label>
-                                    <input type="text" id="cep" class="w-full px-4 py-2 rounded input-field" required>
+                                    <input type="text" id="cep" class="w-full px-4 py-3 rounded input-field" required>
                                     <div id="cep-loading" class="cep-loading">
                                         <i class="fas fa-spinner fa-spin text-gray-400"></i>
                                     </div>
@@ -350,27 +422,27 @@
                                 
                                 <div>
                                     <label for="city" class="block text-sm font-medium text-gray-300 mb-1">CIDADE *</label>
-                                    <input type="text" id="city" class="w-full px-4 py-2 rounded input-field" required readonly>
+                                    <input type="text" id="city" class="w-full px-4 py-3 rounded input-field" required readonly>
                                 </div>
                                 
                                 <div>
                                     <label for="state" class="block text-sm font-medium text-gray-300 mb-1">ESTADO *</label>
-                                    <input type="text" id="state" class="w-full px-4 py-2 rounded input-field" required readonly>
+                                    <input type="text" id="state" class="w-full px-4 py-3 rounded input-field" required readonly>
                                 </div>
                                 
                                 <div>
                                     <label for="neighborhood" class="block text-sm font-medium text-gray-300 mb-1">BAIRRO *</label>
-                                    <input type="text" id="neighborhood" class="w-full px-4 py-2 rounded input-field" required>
+                                    <input type="text" id="neighborhood" class="w-full px-4 py-3 rounded input-field" required>
                                 </div>
                                 
                                 <div>
                                     <label for="street" class="block text-sm font-medium text-gray-300 mb-1">RUA *</label>
-                                    <input type="text" id="street" class="w-full px-4 py-2 rounded input-field" required>
+                                    <input type="text" id="street" class="w-full px-4 py-3 rounded input-field" required>
                                 </div>
                                 
                                 <div>
                                     <label for="number" class="block text-sm font-medium text-gray-300 mb-1">NÚMERO *</label>
-                                    <input type="text" id="number" class="w-full px-4 py-2 rounded input-field" required>
+                                    <input type="text" id="number" class="w-full px-4 py-3 rounded input-field" required>
                                 </div>
                             </div>
                         </div>
@@ -382,19 +454,19 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-gray-300 mb-1">GMAIL *</label>
-                                    <input type="email" id="email" class="w-full px-4 py-2 rounded input-field" required>
+                                    <input type="email" id="email" class="w-full px-4 py-3 rounded input-field" required>
                                 </div>
                                 
                                 <div>
                                     <label for="password" class="block text-sm font-medium text-gray-300 mb-1">SENHA *</label>
-                                    <input type="password" id="password" class="w-full px-4 py-2 rounded input-field" required>
+                                    <input type="password" id="password" class="w-full px-4 py-3 rounded input-field" required>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="mt-6">
                             <div class="flex items-center">
-                                <input type="checkbox" id="terms" class="rounded input-field" required>
+                                <input type="checkbox" id="terms" class="custom-checkbox rounded" required>
                                 <label for="terms" class="ml-2 text-sm text-gray-300">
                                     Concordo com os <a href="#" class="text-red-500 hover:underline">Termos de Serviço</a> e 
                                     <a href="#" class="text-red-500 hover:underline">Política de Privacidade</a>
@@ -429,7 +501,7 @@
                     </form>
                 </div>
                 
-                <div class="mt-8 mb-12 bg-gray-900 bg-opacity-70 border border-gray-800 rounded-lg p-6 text-center">
+                <div class="mt-8 mb-12 bg-black bg-opacity-70 border-2 border-gray-800 rounded-lg p-6 text-center glow-box">
                     <h3 class="text-xl font-bold text-red-500 mb-4">POR QUE PARTICIPAR DA TROPA DO DOUBLE?</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                         <div class="flex items-start">
@@ -586,8 +658,9 @@
                 
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
+                const terms = document.getElementById('terms').checked;
                 
-                if (!email || !password) {
+                if (!email || !password || !terms) {
                     formError.classList.remove('hidden');
                     formSuccess.classList.add('hidden');
                     return;
